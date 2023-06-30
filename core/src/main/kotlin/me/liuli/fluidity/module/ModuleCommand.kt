@@ -11,6 +11,8 @@ import me.liuli.fluidity.util.render.colorToHexString
 import me.liuli.fluidity.util.world.getBlockName
 import net.minecraft.block.Block
 import java.awt.Color
+import kotlin.math.max
+import kotlin.math.min
 
 /**
  * Module command
@@ -92,8 +94,8 @@ class ModuleCommand(private val module: Module, private val values: List<Value<*
                     chat("${module.name} ${args[0].lowercase()} was set to ${getBlockName(id)}.")
                     return
                 }
-                is IntValue -> value.set(args[1].toInt())
-                is FloatValue -> value.set(args[1].toFloat())
+                is IntValue -> value.set(min(max(args[1].toInt(), value.minimum), value.maximum))
+                is FloatValue -> value.set(min(max(args[1].toFloat(), value.minimum), value.maximum))
                 is BoolValue -> {
                     when (args[1].lowercase()) {
                         "on", "true" -> value.set(true)
