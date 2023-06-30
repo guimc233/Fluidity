@@ -7,6 +7,8 @@ package me.liuli.fluidity.module.value
 
 import com.google.gson.JsonElement
 import com.google.gson.JsonPrimitive
+import kotlin.math.max
+import kotlin.math.min
 
 /**
  * Float value represents a value with a float
@@ -21,7 +23,7 @@ open class FloatValue(name: String, value: Float, val minimum: Float = 0F, val m
 
     override fun fromJson(element: JsonElement) {
         if (element.isJsonPrimitive) {
-            value = element.asFloat
+            value = min(max(element.asFloat, minimum), maximum)
         }
     }
 }

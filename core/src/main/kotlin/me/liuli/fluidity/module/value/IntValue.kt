@@ -7,6 +7,8 @@ package me.liuli.fluidity.module.value
 
 import com.google.gson.JsonElement
 import com.google.gson.JsonPrimitive
+import kotlin.math.max
+import kotlin.math.min
 
 /**
  * Integer value represents a value with a integer
@@ -21,7 +23,7 @@ open class IntValue(name: String, value: Int, val minimum: Int = 0, val maximum:
 
     override fun fromJson(element: JsonElement) {
         if (element.isJsonPrimitive) {
-            value = element.asInt
+            value = min(max(element.asInt, minimum), maximum)
         }
     }
 }
