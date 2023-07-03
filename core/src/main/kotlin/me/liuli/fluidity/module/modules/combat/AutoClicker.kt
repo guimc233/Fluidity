@@ -24,7 +24,7 @@ class AutoClicker : Module("AutoClicker", "Constantly clicks when holding down a
 
     private val minCpsValue by IntValue("MinCPS", 7, 1, 20)
     private val maxCpsValue by IntValue("MaxCPS", 12, 1, 20)
-
+    private val blockHit by BoolValue("BlockHit", false)
     private val leftValue by BoolValue("Left", true)
     private val leftSwordOnlyValue by BoolValue("LeftSwordOnly", false)
     private val rightValue by BoolValue("Right", true)
@@ -41,8 +41,11 @@ class AutoClicker : Module("AutoClicker", "Constantly clicks when holding down a
 
     @Listen
     fun onRender(event: Render3DEvent) {
+        val leftButtonPressed = mc.gameSettings.keyBindAttack.pressed
+        val rightButtonPressed = mc.gameSettings.keyBindUseItem.pressed
+
         // Left click
-        if (mc.gameSettings.keyBindAttack.pressed && leftValue && (!leftSwordOnlyValue || mc.thePlayer.heldItem?.item is ItemSword) &&
+        if (leftButtonPressed && leftValue && (!leftSwordOnlyValue || mc.thePlayer.heldItem?.item is ItemSword) &&
             leftClickTimer.canClick() && mc.playerController.curBlockDamageMP == 0F) {
             KeyBinding.onTick(mc.gameSettings.keyBindAttack.keyCode) // Minecraft Click Handling
 
@@ -50,7 +53,7 @@ class AutoClicker : Module("AutoClicker", "Constantly clicks when holding down a
         }
 
         // Right click
-        if (mc.gameSettings.keyBindUseItem.pressed && !mc.thePlayer!!.isUsingItem &&
+        if (rightButtonPressed && !mc.thePlayer!!.isUsingItem &&
             (!rightBlockOnlyValue || mc.thePlayer.heldItem?.item is ItemBlock) && rightValue && rightClickTimer.canClick()) {
             KeyBinding.onTick(mc.gameSettings.keyBindUseItem.keyCode) // Minecraft Click Handling
 
